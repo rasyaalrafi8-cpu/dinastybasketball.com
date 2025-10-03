@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dinasty Basketball Club</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0c2461, #1e3799);
+            color: #fff;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px 0;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #a5b1c2;
+            margin-bottom: 30px;
+        }
+
+        /* Hamburger Menu - Top Left */
+        .hamburger-menu {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+        }
+
+        .hamburger-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .hamburger-btn:hover {
+            background: rgba(241, 196, 15, 0.3);
+            transform: scale(1.1);
+        }
+
+        .hamburger-btn span {
+            display: block;
+            width: 6px;
+            height: 6px;
+            background: #fff;
+            border-radius: 50%;
+            margin: 2px 0;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger-btn.active {
+            background: #f1c40f;
+        }
+
+        .hamburger-btn.active span {
+            background: #2c3e50;
+        }
+
+        .nav-menu {
+            position: absolute;
+            top: 60px;
+            left: 0;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 15px;
+            padding: 15px;
+            min-width: 200px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .nav-item {
+            margin: 10px 0;
+        }
+
+        .nav-link {
+            color: #fff;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            display: block;
+            text-align: left;
+            border: 1px solid transparent;
+        }
+
+        .nav-link:hover {
+            background: rgba(241, 196, 15, 0.3);
+            transform: translateX(5px);
+            border-color: rgba(241, 196, 15, 0.5);
+        }
+
+        .nav-link.active {
+            background: #f1c40f;
+            color: #2c3e50;
+            box-shadow: 0 4px 15px rgba(241, 196, 15, 0.4);
+            border-color: #f1c40f;
+        }
+
+        /* Audio Notification */
+        .audio-notification {
+            background: rgba(241, 196, 15, 0.2);
+            border: 1px solid #f1c40f;
+            border-radius: 8px;
+            padding: 10px 15px;
+            margin: 15px auto;
+            max-width: 500px;
+            text-align: center;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .audio-notification i {
+            color: #f1c40f;
+            font-size: 1.2rem;
+        }
+
+        /* Logo 3D Styles */
+        .logo-container {
+            perspective: 1000px;
+            display: flex;
+            justify-content: center;
+            margin: 40px 0;
+        }
+
+        .logo-3d {
+            width: 300px;
+            height: 300px;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: rotate 20s infinite linear;
+            transition: transform 0.5s;
+        }
+
+        .logo-3d:hover {
+            animation-play-state: paused;
+        }
+
+        .logo-front, .logo-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-front {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            transform: translateZ(25px);
+        }
+
+        .logo-back {
+            background: linear-gradient(45deg, #2c3e50, #34495e);
+            transform: rotateY(180deg) translateZ(25px);
+            padding: 20px;
+            text-align: center;
+            flex-direction: column;
+        }
+
+        .logo-img {
+            width: 90%;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo-motto {
+            font-size: 1rem;
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        @keyframes rotate {
+            0% {
+                transform: rotateY(0deg);
+            }
+            100% {
+                transform: rotateY(360deg);
+            }
+        }
+
+        /* Content Sections */
+        .section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            scroll-margin-top: 20px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+            color: #f1c40f;
+        }
+
+        /* Founder Section */
+        .founders-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .founder-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            width: 220px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .founder-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .founder-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #f1c40f;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .founder-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #f1c40f;
+        }
+
+        .founder-title {
+            font-size: 1rem;
+            color: #a5b1c2;
+            background: rgba(241, 196, 15, 0.2);
+            padding: 5px 10px;
+            border-radius: 15px;
+            display: inline-block;
+        }
+
+        /* Player Lists */
+        .players-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .player-list {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .player-list h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #3498db;
+            text-align: center;
+        }
+
+        .player-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            transition: transform 0.3s, background 0.3s;
+            border-left: 4px solid #3498db;
+            cursor: pointer;
+        }
+
+        .player-item:hover {
+            transform: translateX(10px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .player-item.captain {
+            border-left-color: #f1c40f;
+            background: rgba(241, 196, 15, 0.1);
+        }
+
+        .player-number {
+            background: #e74c3c;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+
+        .player-name {
+            flex: 1;
+        }
+
+        .captain-badge {
+            background: #f1c40f;
+            color: #2c3e50;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-left: 10px;
+            font-weight: bold;
+        }
+
+        /* TikTok Section */
+        .tiktok-section {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .tiktok-card {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            max-width: 400px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .tiktok-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            border-color: #f1c40f;
+        }
+
+        .tiktok-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .tiktok-title {
+            font-size: 1.5rem;
+            color: #f1c40f;
+            margin-bottom: 10px;
+        }
+
+        .tiktok-description {
+            font-size: 1rem;
+            color: #a5b1c2;
+            margin-bottom: 20px;
+        }
+
+        .tiktok-link {
+            display: inline-block;
+            background: linear-gradient(45deg, #000000, #69C9D0, #EE1D52);
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .tiktok-link:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Player Bio Modal */
+        .bio-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .bio-modal.active {
+            display: flex;
+        }
+
+        .bio-content {
+            background: linear-gradient(135deg, #0c2461, #1e3799);
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .close-bio {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.5rem;
+            color: #fff;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close-bio:hover {
+            color: #f1c40f;
+        }
+
+        .bio-header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .bio-name {
+            font-size: 1.8rem;
+            color: #f1c40f;
+            margin-bottom: 5px;
+        }
+
+        .bio-position {
+            font-size: 1.1rem;
+            color: #a5b1c2;
+        }
+
+        .bio-details {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        .bio-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+        }
+
+        .bio-label {
+            font-weight: bold;
+            color: #f1c40f;
+            min-width: 100px;
+        }
+
+        .bio-value {
+            flex: 1;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .logo-3d {
+                width: 250px;
+                height: 250px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .players-container {
+                flex-direction: column;
+            }
+            
+            .founder-photo {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .founder-card {
+                width: 180px;
+                padding: 20px;
+            }
+            
+            .hamburger-menu {
+                top: 15px;
+                left: 15px;
+            }
+            
+            .hamburger-btn {
+                width: 45px;
+                height: 45px;
+            }
+            
+            .bio-content {
+                padding: 20px;
+                width: 95%;
+            }
+            
+            .tiktok-card {
+                padding: 20px;
+                margin: 0 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .founders-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .founder-card {
+                width: 90%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Audio Element -->
+    <audio id="bgMusic" loop autoplay>
+        <source src="https://l.top4top.io/m_3561c2mtz0.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Player Bio Modal -->
+    <div id="playerBioModal" class="bio-modal">
+        <div class="bio-content">
+            <span class="close-bio">&times;</span>
+            <div class="bio-header">
+                <h2 class="bio-name" id="bioPlayerName">NAMA PEMAIN</h2>
+                <div class="bio-position" id="bioPlayerPosition">POSISI</div>
+            </div>
+            <div class="bio-details" id="bioPlayerDetails">
+                <!-- Biodata akan diisi oleh JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Hamburger Menu - Top Left -->
+    <div class="hamburger-menu">
+        <div class="hamburger-btn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <nav class="nav-menu">
+            <div class="nav-item">
+                <a href="#keterangan" class="nav-link active">Keterangan</a>
+            </div>
+            <div class="nav-item">
+                <a href="#management" class="nav-link">management</a>
+            </div>
+            <div class="nav-item">
+                <a href="#susunan-pemain" class="nav-link">Susunan Pemain</a>
+            </div>
+            <div class="nav-item">
+                <a href="#tiktok" class="nav-link">TikTok</a>
+            </div>
+        </nav>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>Dinasty Basketball Club</h1>
+            <p class="subtitle">Membangun Kejayaan, Membangun Masa Depan, Membangun Prestasi</p>
+            
+            <div class=
+            </div>
+            
+            <div class="logo-container">
+                <div class="logo-3d">
+                    <div class="logo-front">
+                        <img src="https://img1.pixhost.to/images/9107/646480728_lexzypedia.jpg" alt="Dinasty Basketball Club Logo" class="logo-img">
+                    </div>
+                    <div class="logo-back">
+                        <div class="logo-text">DINASTY BASKETBALL</div>
+                        <div class="logo-motto">Membangun Kejayaan</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Keterangan Section -->
+        <section id="keterangan" class="section">
+            <h2 class="section-title">Keterangan</h2>
+            <p>Disaat pulang latihan saya dan teman saya duduk berdua di pos dan merundingkan masa depan basket di wilayah utara Brantas. Kemudian muncullah sebuah ide untuk mendirikan sebuah club resmi yang dinaungi Perbasi dan memiliki izin resmi. Pada saat itu kami memikirkan nama untuk club tersebut kemudian terlintaslah nama club Dinasty yang terbentuk dari perkataan yang saya ucap dan disaat itu juga kami namakan club ini Dinasty Basketball dengan inspirasi membangun kejayaan, membangun masa depan dan membangun prestasi seperti nama-nama kerajaan yang dibanggakan Jepang dan China yang memiliki masa kejayaan hingga lama.</p>
+        </section>
+
+        <!-- Pendiri Section -->
+        <section id="pendiri" class="section">
+            <h2 class="section-title">Management</h2>
+            <div class="founders-container">
+                <div class="founder-card">
+                    <img src="https://img1.pixhost.to/images/9107/646480483_lexzypedia.jpg" alt="Pendiri Dinasty Basketball Club" class="founder-photo">
+                    <div class="founder-name">MOHAMMAD IQBAL SAPUTRA</div>
+                    <div class="founder-title">PENDIRI UTAMA</div>
+                </div>
+                <div class="founder-card">
+                    <img src="https://img1.pixhost.to/images/9156/647324010_lexzypedia.jpg" alt="Pendiri Dinasty Basketball Club" class="founder-photo">
+                    <div class="founder-name">WINDI SULISTYO PUTRI</div>
+                    <div class="founder-title">CO-FOUNDER</div>
+                </div>
+                <div class="founder-card">
+                    <img src="https://img1.pixhost.to/images/9156/647324084_lexzypedia.jpg" alt="Pendiri Dinasty Basketball Club" class="founder-photo">
+                    <div class="founder-name">MOCHAMMAD ADITYA</div>
+                    <div class="founder-title">CO-FOUNDER</div>
+                </div>
+                <div class="founder-card">
+                    <img src="https://img1.pixhost.to/images/9156/647324061_lexzypedia.jpg" alt="Pendiri Dinasty Basketball Club" class="founder-photo">
+                    <div class="founder-name">CELVIN ARDIANSYAH PRATAMA</div>
+                    <div class="founder-title">CO-FOUNDER</div>
+                </div>
+                <div class="founder-card">
+                    <img src="https://img1.pixhost.to/images/9156/647324039_lexzypedia.jpg" alt="Pendiri Dinasty Basketball Club" class="founder-photo">
+                    <div class="founder-name">HEGA VANDIYO PRATAMA</div>
+                          <div class="founder-title">CO-FOUNDER</div>
+                </div>
+            </div>
+        </section>
+        <!-- Susunan Pemain Section -->
+        <section id="susunan-pemain" class="section">
+            <h2 class="section-title">Susunan Pemain</h2>
+            <div class="players-container">
+                <div class="player-list">
+                    <h3>Tim Putri</h3>
+                    <div class="player-item captain" data-player="yolanda">
+                        <div class="player-number">1</div>
+                        <div class="player-name">YOLANDA PERMATA DEWI <span class="captain-badge">CAPTAIN</span></div>
+                    </div>
+                    <div class="player-item" data-player="aida">
+                        <div class="player-number">2</div>
+                        <div class="player-name">AIDA CANTIKA SARI DEWI</div>
+                    </div>
+                    <div class="player-item" data-player="nazwa">
+                        <div class="player-number">3</div>
+                        <div class="player-name">NAZWA AULIA RAHMADHANI</div>
+                    </div>
+                    <div class="player-item" data-player="liftya">
+                        <div class="player-number">4</div>
+                        <div class="player-name">LIFTYA PUTRI BEFANDA</div>
+                    </div>
+                    <div class="player-item" data-player="azizahtun">
+                        <div class="player-number">5</div>
+                        <div class="player-name">AZIZAHTUN RAHMITA RAMADANI</div>
+                    </div>
+                    <div class="player-item" data-player="miftakhul">
+                        <div class="player-number">6</div>
+                        <div class="player-name">MIFTAKHUL FANA NASWA</div>
+                    </div>
+                    <div class="player-item" data-player="imelda">
+                        <div class="player-number">7</div>
+                        <div class="player-name">IMELDA ZHILLA LAILATUL MAGFIROH</div>
+                    </div>
+                    <div class="player-item" data-player="vivi">
+                        <div class="player-number">8</div>
+                        <div class="player-name">VIVI WIDIA WATI</div>
+                    </div>
+                    <div class="player-item" data-player="ovira">
+                        <div class="player-number">9</div>
+                        <div class="player-name">OVIRA ADELIA ALFARENA</div>
+                    </div>
+                    <div class="player-item" data-player="alexandria">
+                        <div class="player-number">10</div>
+                        <div class="player-name">ALEXANDRIA MAHARANI</div>
+                    </div>
+                    <div class="player-item" data-player="widia">
+                        <div class="player-number">11</div>
+                        <div class="player-name">WIDIA ANGRAINI SULISTIYO</div>
+                    </div>
+                </div>
+
+                <div class="player-list">
+                    <h3>Tim Putra</h3>
+                    <div class="player-item captain">
+                        <div class="player-number">1</div>
+                        <div class="player-name">MUHAMMAD RIZIQ BIMA NUR ZULFIKRI <span class="captain-badge">CAPTAIN</span></div>
+                    </div>
+                    <div class="player-item">
+                        <div class="player-number">2</div>
+                        <div class="player-name">MOHAMMAD WAKHIDHUL FALAH</div>
+                    </div>
+                    <div class="player-item">
+                        <div class="player-number">3</div>
+                        <div class="player-name">FIRZIAWAN EKA RAMADHANI</div>
+                    </div>
+                    <div class="player-item">
+                        <div class="player-number">4</div>
+                        <div class="player-name">FAHCRIL AZZAM</div>
+                    </div>
+                    <div class="player-item">
+                        <div class="player-number">5</div>
+                        <div class="player-name">TRYO ABY</div>
+                    </div>
+                    <div class="player-item">
+                        <div class="player-number">6</div>
+                        <div class="player-name">MUHAMMAD IBRAHIM</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TikTok Section -->
+        <section id="tiktok" class="section">
+            <h2 class="section-title">Ikuti Kami di TikTok</h2>
+            <div class="tiktok-section">
+                <div class="tiktok-card">
+                    <div class="tiktok-icon">🎵</div>
+                    <h3 class="tiktok-title">@dinasty.basketbal</h3>
+                    <p class="tiktok-description">Ikuti perkembangan terbaru Dinasty Basketball Club di TikTok! Lihat highlights pertandingan, latihan, dan konten eksklusif lainnya.</p>
+                    <a href="https://www.tiktok.com/@dinasty.basketbal?_t=ZS-90FGIW3kxvR&_r=1" target="_blank" class="tiktok-link">
+                        Kunjungi TikTok Kami
+                    </a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Data biodata pemain
+        const playerData = {
+            'yolanda': {
+                name: 'YOLANDA PERMATA DEWI',
+                position: 'Kapten Tim Putri - Center',
+                details: [
+                    { label: 'TTL', value: 'Jombang, 28 Oktober 2010' },
+                    { label: 'Asal Sekolah', value: 'SMPN 1 Ploso' },
+                    { label: 'Posisi', value: 'Center' }
+                ]
+            },
+            'aida': {
+                name: 'AIDA CANTIKA SARI DEWI',
+                position: 'Anggota Tim Putri',
+                details: [
+                    { label: 'TTL', value: 'Jombang, 02 November 2010' },
+                    { label: 'Asal Sekolah', value: 'SMPN 1 Ploso' },
+                    { label: 'Posisi', value: 'Point Guard' }
+                ]
+            },
+            'nazwa': {
+                name: 'NAZWA AULIA RAHMADHANI',
+                position: 'Anggota Tim Putri',
+                details: [
+                    { label: 'TTL', value: 'Jombang, 08 Agustus 2010' },
+                    { label: 'Asal Sekolah', value: 'SMPN 1 Ploso' },
+                    { label: 'Posisi', value: 'Shooting Guard' }
+                ]
+            },
+            'liftya': {
+                name: 'LIFTYA PUTRI BEFANDA',
+                position: 'Anggota Tim Putri',
+                details: [
+                    { label: 'TTL', value: 'Jombang, 15 April 2011' },
+                    { label: 'Asal Sekolah', value: 'SMPN 1 Ploso' },
+                    { label: 'Posisi', value: 'Center' }
+                ]
+            },
+            'azizahtun': {
+                name: 'AZIZAHTUN RAHMITA RAMADANI',
+                position: 'Anggota Tim Putri',
+                details: [
+                    { label: 'TTL', value: 'Jombang, 15 Agustus 2010' },
+                    { label: 'Asal Sekolah', value: 'SMPN 1 Ploso' },
+                    { label: 'Posisi', value: 'Small Forward' }
+                ]
+            },
+            'miftakhul': {
+                name: 'MIFTAKHUL FANA NASWA',
+                position: 'Anggota Tim Putri',
+                details: [
+                    { label: 'TTL', value: 'Jombang, 12 Juni 2012' },
+                    { label: 'Asal Sekolah', value: 'SMPN 1 Ploso' },
+                    { label: 'Posisi', value: 'Point Guard' }
+                ]
+            },
+            'imelda': {
+                name: 'IMELDA ZHILLA LAILATUL MAGFIROH',
+                position: 'Anggota Tim Putri',
+                details: [
+                    { label: 'TTL', value: 'Jombang, 13 Januari 2011' },
+                    { label: 'Asal Sekolah', value: 'SMPN 1 Ploso' },
+                    { label: 'Posisi', value: 'Shooting Guard' }
+                ]
+            },
+            'vivi': {
+                name: 'VIVI WIDIA WATI',
+                position: 'Anggota Tim Putri',
+                details: [
+                    { label: 'TTL', value: 'Jombang, 18 Oktober 2010' },
+                    { label: 'Asal Sekolah', value: 'SMPN 1 Ploso' },
+                    { label: 'Posisi', value: 'Power Forward' }
+                ]
+            },
+            'ovira': {
+                name: 'OVIRA ADELIA ALFARENA',
+                position: 'Anggota Tim Putri',
+                details: [
+                    { label: 'TTL', value: 'Jombang, 14 April 2011' },
+                    { label: 'Asal Sekolah', value: 'SMPN 1 Ploso' },
+                    { label: 'Posisi', value: 'Power Forward' }
+                ]
+            },
+            'alexandria': {
+                name: 'ALEXANDRIA MAHARANI',
+                position: 'Anggota Tim Putri',
+                details: [
+                    { label: 'TTL', value: 'Jombang, 19 Juni 2011' },
+                    { label: 'Asal Sekolah', value: 'SMPN 1 Ploso' },
+                    { label: 'Posisi', value: 'Center' }
+                ]
+            },
+            'widia': {
+                name: 'WIDIA ANGRAINI SULISTIYO',
+                position: 'Anggota Tim Putri',
+                details: [
+                    { label: 'TTL', value: 'Banyuwangi, 29 April 2011' },
+                    { label: 'Asal Sekolah', value: 'SMPN 1 Ploso' },
+                    { label: 'Posisi', value: 'Small Forward' }
+                ]
+            }
+        };
+
+        // Fungsi untuk memutar musik secara otomatis
+        document.addEventListener('DOMContentLoaded', function() {
+            const audio = document.getElementById('bgMusic');
+            
+            // Coba putar musik secara otomatis
+            const playAudio = () => {
+                audio.volume = 0.7; // Set volume ke 70%
+                audio.play().catch(error => {
+                    console.log('Autoplay diblokir, menunggu interaksi pengguna');
+                });
+            };
+            
+            // Coba putar langsung
+            playAudio();
+            
+            // Coba lagi setelah interaksi pengguna
+            document.addEventListener('click', function() {
+                playAudio();
+            }, { once: true });
+            
+            // Pastikan musik tetap diputar dan tidak bisa dimute
+            audio.addEventListener('pause', function() {
+                audio.play();
+            });
+            
+            // Loop musik secara terus menerus
+            audio.loop = true;
+            
+            // Reset volume jika diubah
+            setInterval(() => {
+                if (audio.volume < 0.7) {
+                    audio.volume = 0.7;
+                }
+            }, 1000);
+            
+            // Hamburger Menu Toggle
+            const hamburgerBtn = document.querySelector('.hamburger-btn');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            hamburgerBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                this.classList.toggle('active');
+                navMenu.classList.toggle('active');
+            });
+            
+            // Close menu when clicking outside
+            document.addEventListener('click', function() {
+                hamburgerBtn.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+            
+            // Prevent menu from closing when clicking inside
+            navMenu.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+            
+            // Navigation active state
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.section');
+            
+            // Function to update active nav link
+            function updateActiveNav() {
+                let current = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    
+                    if (scrollY >= (sectionTop - 150)) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${current}`) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+            
+            // Update active nav on scroll
+            window.addEventListener('scroll', updateActiveNav);
+            
+            // Smooth scroll for navigation links
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    const targetSection = document.querySelector(targetId);
+                    
+                    // Close menu after clicking a link (on mobile)
+                    hamburgerBtn.classList.remove('active');
+                    navMenu.classList.remove('active');
+                    
+                    window.scrollTo({
+                        top: targetSection.offsetTop - 20,
+                        behavior: 'smooth'
+                    });
+                });
+            });
+            
+            // Player Bio Modal Functionality
+            const bioModal = document.getElementById('playerBioModal');
+            const closeBio = document.querySelector('.close-bio');
+            const playerItems = document.querySelectorAll('.player-item[data-player]');
+            
+            // Open bio modal when clicking on any player
+            playerItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const playerId = this.getAttribute('data-player');
+                    const player = playerData[playerId];
+                    
+                    if (player) {
+                        document.getElementById('bioPlayerName').textContent = player.name;
+                        document.getElementById('bioPlayerPosition').textContent = player.position;
+                        
+                        const bioDetails = document.getElementById('bioPlayerDetails');
+                        bioDetails.innerHTML = '';
+                        
+                        player.details.forEach(detail => {
+                            const detailItem = document.createElement('div');
+                            detailItem.className = 'bio-item';
+                            detailItem.innerHTML = `
+                                <span class="bio-label">${detail.label}</span>
+                                <span class="bio-value">${detail.value}</span>
+                            `;
+                            bioDetails.appendChild(detailItem);
+                        });
+                        
+                        bioModal.classList.add('active');
+                    }
+                });
+            });
+            
+            // Close bio modal
+            closeBio.addEventListener('click', function() {
+                bioModal.classList.remove('active');
+            });
+            
+            // Close modal when clicking outside
+            window.addEventListener('click', function(e) {
+                if (e.target === bioModal) {
+                    bioModal.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+   
